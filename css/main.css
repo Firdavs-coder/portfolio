@@ -1,4 +1,8 @@
-﻿body {
+﻿* {
+    box-sizing: border-box;
+}
+
+body {
     font-family: sans-serif;
     line-height: 1.6;
     background-color: #f6f6f6;
@@ -8,7 +12,8 @@
 }
 
 .container {
-    max-width: 50%;
+    max-width: 800px;
+    width: 90%;
     margin: 20px auto;
     padding: 10px 20px;
     background-color: #fff;
@@ -64,6 +69,16 @@ nav a:hover {
     width: 100%;
     display: block;
     border: 1px solid #000;
+}
+
+.resume-aside {
+    float: right;
+    width: 300px;
+    border: 1px solid #a2a9b1;
+    padding: 15px;
+    background-color: #f8f9fa;
+    margin-left: 20px;
+    font-size: 0.9em;
 }
 
 table {
@@ -374,14 +389,33 @@ hr {
 
 @media (max-width: 600px) {
     .container {
+        width: 100%;
         margin: 0;
         border: none;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav-right {
+        margin-left: 0;
     }
 
     .profile-photo {
         float: none;
         width: 100%;
         margin: 0 auto 20px auto;
+    }
+
+    .resume-aside {
+        float: none;
+        width: 100%;
+        margin: 0 0 20px 0;
+        box-sizing: border-box;
     }
 
     .skills-languages-row {
@@ -396,6 +430,26 @@ hr {
     .project-image {
         width: 100%;
         height: 180px;
+    }
+
+    .resume-item-header {
+        flex-direction: column;
+    }
+
+    .resume-item-date {
+        margin-left: 0;
+        margin-top: 5px;
+    }
+
+    .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    .skills-category {
+        border-bottom: 1px solid #eaecf0;
+        padding-bottom: 2px;
+        margin-bottom: 5px;
     }
 }
 
