@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Variables: Primitives and References - Firdavs Shodiev</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <style>
+        .memory-diagram {
+            display: flex;
+            gap: 30px;
+            margin: 20px 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .memory-column {
+            flex: 1;
+            min-width: 220px;
+            max-width: 280px;
+        }
+        .memory-column h4 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+        .memory-box {
+            border: 1px solid #a2a9b1;
+            padding: 10px;
+            margin-bottom: 15px;
+            background-color: #fafafa;
+        }
+        .memory-variable {
+            font-family: monospace;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+        .memory-cell {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+            background-color: #fff;
+            margin: 5px 0;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        .memory-address {
+            font-size: 0.75em;
+            color: #54595d;
+            margin-top: 5px;
+        }
+        .memory-arrow {
+            text-align: center;
+            font-size: 20px;
+            margin: 8px 0;
+        }
+        .memory-object {
+            border: 1px dashed #000;
+            padding: 10px;
+            background-color: #fff;
+            margin-top: 8px;
+        }
+        .memory-object-title {
+            font-size: 0.85em;
+            margin-bottom: 6px;
+            font-family: monospace;
+        }
+        .memory-object-content {
+            font-family: monospace;
+            font-size: 0.9em;
+            padding: 4px;
+        }
+    </style>
+</head>
+<body class="blog-post-body">
+
+<div class="container">
+    <header>
+        <h1>Firdavs Shodiev</h1>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../resume.html">Resume</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li><a href="../blog.html">Blog</a></li>
+                <li class="nav-right"><a href="../assets/resume.pdf" download>Download Resume</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <article>
+            <h2>Java Variables: Primitives and References</h2>
+            <p class="blog-date">Published on February 8, 2026</p>
+            <hr>
+
+            <p>In Java, variables are divided into primitive types and reference types. Primitive types include basic data types like int, double, char, and boolean, which store values directly. Reference types, such as String and arrays, store references to objects in memory. This fundamental difference impacts how data is handled, passed between methods, and managed in Java applications.</p>
+            <br>
+
+            <h3>Primitive Types</h3>
+            <p>Primitive types are the basic building blocks. They're not objects — they're just raw data stored directly in memory. Java has eight of them: byte, short, int, long, float, double, char, and boolean. Each one has a specific size in bytes and can hold certain values.</p>
+            <br>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Bytes</th>
+                        <th>Value Range</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>byte</td>
+                        <td>1</td>
+                        <td>[-128, 127]</td>
+                    </tr>
+                    <tr>
+                        <td>short</td>
+                        <td>2</td>
+                        <td>[-32,768, 32,767]</td>
+                    </tr>
+                    <tr>
+                        <td>int</td>
+                        <td>4</td>
+                        <td>[-2.147B, 2.147B]</td>
+                    </tr>
+                    <tr>
+                        <td>long</td>
+                        <td>8</td>
+                        <td>≈[-9.22E18, 9.22E18]</td>
+                    </tr>
+                    <tr>
+                        <td>float</td>
+                        <td>4</td>
+                        <td>Approximately ±3.4028235E+38F (6-7 significant decimal digits)</td>
+                    </tr>
+                    <tr>
+                        <td>double</td>
+                        <td>8</td>
+                        <td>Approximately ±1.7976931348623157E+308 (15 significant decimal digits)</td>
+                    </tr>
+                    <tr>
+                        <td>char</td>
+                        <td>2</td>
+                        <td>[0, 65,535] (Unicode characters)</td>
+                    </tr>
+                    <tr>
+                        <td>boolean</td>
+                        <td>1 (varies)</td>
+                        <td>true or false</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+
+            <p>Let's see some examples. Declaring a primitive is straightforward:</p>
+            <pre>int age = 25;
+double pi = 3.14159;
+char letter = 'A';
+boolean isJavaFun = true;</pre>
+            <br>
+
+            <h4>Key Differences Among Primitives</h4>
+            <p>Different numeric types exist to balance range, precision, and memory usage.</p>
+            <br>
+            <p>For decimal numbers, <code>double</code> is the safe default because it provides about 15 significant digits of precision. <code>float</code> uses half the memory but only around 6–7 significant digits, so prefer <code>float</code> only when memory is constrained.</p>
+            <br>
+            <p>For whole numbers, <code>int</code> (4 bytes) covers most everyday needs (≈[-2.147B, 2.147B]). Choose <code>long</code> (8 bytes) when you need much larger ranges, such as for timestamps or very large counters. Long literals should be suffixed with <code>L</code>, for example <code>long bigNum = 1234567890123L;</code>.</p>
+            <br>
+            <p><code>byte</code> (1 byte) and <code>short</code> (2 bytes) are useful for memory-sensitive or low-level data. Use <code>byte</code> for raw binary values and <code>short</code> for compact 16-bit numbers; <code>int</code> remains the practical default for most integer work.</p>
+            <br>
+            <p><code>char</code> stores a single Unicode code unit (0–65,535) and can participate in arithmetic, for example <code>char next = 'A' + 1;</code>.</p>
+            <br>
+            <p><code>boolean</code> represents <code>true</code> or <code>false</code> and is used in conditions and control flow.</p>
+            <br>
+
+            <h3>Reference Types</h3>
+            <p>Now, reference types are different. These point to objects in memory. When you create a reference variable, you're really just holding a reference (like an address) to the actual object. Strings, arrays, and any class you define are reference types.</p>
+            <br>
+
+            <h4>How Memory Works: Primitives vs References</h4>
+            <p>Understanding how Java stores primitives versus references in memory helps clarify their fundamental difference. When you declare a primitive, the variable directly contains the value. When you declare a reference, the variable contains a memory address pointing to where the actual object lives.</p>
+
+            <div class="memory-diagram">
+                <div class="memory-column">
+                    <h4>Primitive Storage</h4>
+                    <div class="memory-box">
+                        <div class="memory-variable">int age = 25;</div>
+                        <div class="memory-cell">
+                            <div>age</div>
+                            <div style="font-size: 1.2em; margin: 8px 0;">25</div>
+                            <div class="memory-address">Value stored directly</div>
+                        </div>
+                    </div>
+                    <div class="memory-box">
+                        <div class="memory-variable">double pi = 3.14;</div>
+                        <div class="memory-cell">
+                            <div>pi</div>
+                            <div style="font-size: 1.2em; margin: 8px 0;">3.14</div>
+                            <div class="memory-address">Value stored directly</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="memory-column">
+                    <h4>Reference Storage</h4>
+                    <div class="memory-box">
+                        <div class="memory-variable">String name = "Java";</div>
+                        <div class="memory-cell">
+                            <div>name</div>
+                            <div style="font-size: 1.2em; margin: 8px 0;">@2a3b</div>
+                            <div class="memory-address">Memory address</div>
+                        </div>
+                        <div class="memory-arrow">↓</div>
+                        <div class="memory-object">
+                            <div class="memory-object-title">Object at @2a3b:</div>
+                            <div class="memory-object-content">"Java"</div>
+                        </div>
+                    </div>
+                    <div class="memory-box">
+                        <div class="memory-variable">int[] nums = {1,2,3};</div>
+                        <div class="memory-cell">
+                            <div>nums</div>
+                            <div style="font-size: 1.2em; margin: 8px 0;">@5f7c</div>
+                            <div class="memory-address">Memory address</div>
+                        </div>
+                        <div class="memory-arrow">↓</div>
+                        <div class="memory-object">
+                            <div class="memory-object-title">Array at @5f7c:</div>
+                            <div class="memory-object-content">[1, 2, 3]</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p>This distinction explains why copying primitives creates independent values, while copying references creates two variables pointing to the same object. Modifying the object through one reference affects what you see through the other reference.</p>
+            <br>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>String</td>
+                        <td>Immutable sequence of characters</td>
+                        <td><code>String greeting = "Hello World";</code></td>
+                    </tr>
+                    <tr>
+                        <td>Array</td>
+                        <td>Fixed-size collection of elements of the same type</td>
+                        <td><code>int[] nums = new int[5];</code></td>
+                    </tr>
+                    <tr>
+                        <td>Object</td>
+                        <td>Base class for all classes</td>
+                        <td><code>Object obj = new Object();</code></td>
+                    </tr>
+                    <tr>
+                        <td>Class instances</td>
+                        <td>Objects created from user-defined classes</td>
+                        <td><code>MyClass mc = new MyClass();</code></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+
+            <p>For example:</p>
+            <pre><code>String name = "Firdavs";
+int[] numbers = {1, 2, 3, 4, 5};</code></pre>
+            <br>
+
+            <p>Here, 'name' doesn't hold the string "Firdavs" directly; it holds a reference to where that string is stored. Same with the array.</p>
+            <br>
+
+            <p>One key difference: primitives are passed by value, meaning when you assign one to another, it copies the value. Reference variables are also passed by value, but the value being copied is the memory address, not the object itself. This means multiple variables can point to the same object.</p>
+        </article>
+        
+        <div style="margin-top: 40px;">
+            <a href="../blog.html">← Back to Blog</a>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
