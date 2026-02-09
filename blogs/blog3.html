@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidden Gems of Java OOP</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="blog-post-body">
+
+<div class="container">
+    <header>
+        <h1>Firdavs Shodiev</h1>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../resume.html">Resume</a></li>
+                <li><a href="../projects.html">Projects</a></li>
+                <li><a href="../blog.html">Blog</a></li>
+                <li class="nav-right"><a href="../assets/resume.pdf" download>Download Resume</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <article>
+            <h2>Hidden Gems of Java OOP</h2>
+            <p class="blog-date">Published on February 9, 2026</p>
+            <hr>
+
+            <p>I've been writing Java for years now, and I've noticed something interesting. Most developers know about inheritance, polymorphism, and encapsulation. But there are some really powerful OOP features—from classic releases to modern Java 21+—that rarely get talked about. Today, I want to share some of those hidden gems that changed how I write code.</p>
+            <br>
+
+            <h3>1. Covariant Return Types</h3>
+            <p>Here's something that blew my mind when I first discovered it. Since Java 5, you can override a method and return a more specific type than the parent class. Most developers I've worked with don't even know this exists.</p>
+            
+            <pre>class Animal {
+    Animal reproduce() {
+        return new Animal();
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    Dog reproduce() {
+        return new Dog();
+    }
+}
+
+Dog myDog = new Dog();
+Dog puppy = myDog.reproduce();</pre>
+
+            <p>The beauty here is that you don't need to cast the return value. Before I knew about this, I'd write code like <code>Dog puppy = (Dog) myDog.reproduce();</code> which is just... ugly. This feature makes your code cleaner and type-safe.</p>
+            <br>
+
+            <h3>2. The Double Brace Initialization Antipattern</h3>
+            <p>Okay, this one is more of a cautionary tale. You've probably seen code like this and thought it looked cool:</p>
+
+            <pre>List&lt;String&gt; names = new ArrayList&lt;String&gt;() {{
+    add("Alice");
+    add("Bob");
+    add("Charlie");
+}};</pre>
+            <p><strong>Warning:</strong> Don't use this pattern! Because those double braces actually create an anonymous inner class. That means you're creating a new class file every single time. I once debugged a memory leak that was caused by this exact pattern holding references longer than expected.</p>
+
+            <p>Instead, use the proper way that was added in Java 9:</p>
+
+            <pre>List&lt;String&gt; names = List.of("Alice", "Bob", "Charlie");</pre>
+            <br>
+
+            <h3>3. Type Witnesses</h3>
+            <p>This is one of those things that seems like magic until you understand it. Sometimes the compiler can't figure out the type arguments for a generic method. You can explicitly tell it what types to use:</p>
+
+            <pre>class Utils {
+    static &lt;T&gt; List&lt;T&gt; createList() {
+        return new ArrayList&lt;T&gt;();
+    }
+}
+
+List&lt;String&gt; list1 = Utils.createList();
+
+List&lt;String&gt; list2 = Utils.&lt;String&gt;createList();
+
+public &lt;T extends Comparable&lt;T&gt;&gt; T findMax(T a, T b) {
+    return a.compareTo(b) > 0 ? a : b;
+}
+
+Integer max = this.&lt;Integer&gt;findMax(10, 20);</pre>
+
+            <p>I rarely need this, but when I do, it's a lifesaver. Especially when working with complex generic hierarchies.</p>
+            <br>
+
+            <h3>4. Private Interface Methods</h3>
+            <p>Since Java 9, interfaces can have private methods. I know, sounds weird right? But it's actually super useful for reducing code duplication in default methods:</p>
+
+            <pre>interface PaymentProcessor {
+    
+    default void processPayment(double amount) {
+        if (validateAmount(amount)) {
+            logTransaction("Payment", amount);
+            executePayment(amount);
+        }
+    }
+    
+    default void processRefund(double amount) {
+        if (validateAmount(amount)) {
+            logTransaction("Refund", amount);
+            executeRefund(amount);
+        }
+    }
+    
+    private boolean validateAmount(double amount) {
+        return amount > 0 && amount < 10000;
+    }
+    
+    private void logTransaction(String type, double amount) {
+        System.out.println(type + ": $" + amount);
+    }
+    
+    void executePayment(double amount);
+    void executeRefund(double amount);
+}</pre>
+
+            <p>Before Java 9, you'd have to put this logic in a separate class or duplicate it. Now you can keep helper methods right where they belong. It's changed how I design interfaces.</p>
+            <br>
+
+            <h3>5. Sealed Classes: Controlled Inheritance</h3>
+            <p>For a long time, inheritance in Java was "open to everyone" (unless final). Java 17 introduced Sealed Classes. Now you can explicitly define which classes obtain permission to extend your class. It brings fine-grained control to your hierarchy:</p>
+
+            <pre>public sealed class Shape permits Circle, Square, Rectangle {
+    // only Circle, Square, Rectangle can extend this
+}
+
+final class Circle extends Shape { ... }
+final class Square extends Shape { ... }
+sealed class Rectangle extends Shape permits TransparentRectangle { ... }</pre>
+
+            <p>This isn't just about restriction, it allows the compiler to know <em>exhaustively</em> all possible subclasses, which is amazing for pattern matching.</p>
+            <br>
+
+            <h3>6. Records</h3>
+            <p>Java 16 introduced Records to reduce boilerplate for data carriers. But the real hidden gem is the <strong>compact constructor</strong> for validation. You don't verify arguments in a constructor that repeats the parameters, you just validate the logic:</p>
+
+            <pre>public record User(String name, int age) {
+    public User {
+        if (age < 0) {
+            throw new IllegalArgumentException("Age cannot be negative");
+        }
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Name required");
+        }
+    }
+}</pre>
+
+            <p>It’s cleaner, concise, and ensures your immutable data objects are always valid upon creation.</p>
+            <br>
+
+            <h3>7. Serialization's Hidden Constructor Bypass</h3>
+            <p>This one is genuinely mind-bending. When Java deserializes an object, it doesn't call the constructor. This can completely break your carefully designed invariants:</p>
+
+            <pre>class User implements Serializable {
+    private final String username;
+    private transient int loginAttempts = 0;
+    
+    public User(String username) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username required");
+        }
+        this.username = username;
+        System.out.println("Constructor called!");
+    }
+}</pre>
+
+            <p>I've seen production bugs caused by this. The solution? Implement <code>readObject</code> to validate after deserialization:</p>
+
+            <pre>class User implements Serializable {
+    private final String username;
+    
+    public User(String username) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username required");
+        }
+        this.username = username;
+    }
+    
+    private void readObject(ObjectInputStream in) 
+            throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        if (username == null || username.isEmpty()) {
+            throw new InvalidObjectException("Invalid username");
+        }
+    }
+}</pre>
+            <br>
+
+            <h3>8. The Bizarre Truth About Static Methods and Inheritance</h3>
+            <p>Static methods don't participate in polymorphism, but they can be "hidden". This trips up even experienced developers:</p>
+
+            <pre>class Parent {
+    static void display() {
+        System.out.println("Parent");
+    }
+}
+
+class Child extends Parent {
+    static void display() {
+        System.out.println("Child");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Parent p = new Child();
+        p.display();  // Prints "Parent" - NOT "Child"!
+        
+        Child c = new Child();
+        c.display();  // Prints "Child"
+    }
+}</pre>
+
+            <p>Static methods belong to the class, not instances. They're resolved at compile time based on the reference type. This is called "method hiding" not "method overriding".</p>
+            <br>
+
+            <h3>9. Bridge Methods</h3>
+            <p>This one is really obscure. When you use generics with inheritance, the Java compiler sometimes creates invisible "bridge methods" to maintain type safety:</p>
+
+            <pre>class Node&lt;T&gt; {
+    public T data;
+    
+    public void setData(T data) {
+        this.data = data;
+    }
+}
+
+class StringNode extends Node&lt;String&gt; {
+    @Override
+    public void setData(String data) {
+        this.data = data.toUpperCase();
+    }
+}</pre>
+
+            <p>You can actually see these if you use reflection. I discovered this while debugging why my reflection code was finding duplicate methods. They have the <code>isBridge()</code> flag set.</p>
+            <br>
+
+            <h3>10. Protected Access</h3>
+            <p>Most people think protected means "accessible in subclasses". But it's actually more nuanced and can lead to unexpected behavior:</p>
+
+            <pre>package com.example.animals;
+
+public class Animal {
+    protected void makeSound() {
+        System.out.println("Some sound");
+    }
+}
+
+package com.example.pets;
+import com.example.animals.Animal;
+
+public class Dog extends Animal {
+    public void testAccess() {
+        makeSound();  // OK - inherited member
+        
+        Dog otherDog = new Dog();
+        otherDog.makeSound();  // OK - accessing on Dog instance
+        
+        Animal animal = new Animal();
+        animal.makeSound();  // COMPILE ERROR!
+        // Can only access protected through inheritance,
+        // not on instances of the parent class itself
+    }
+}</pre>
+
+            <p>This subtle distinction has caused me hours of debugging. Protected access is tied to inheritance, not just package visibility with a twist.</p>
+        </article>
+        <div style="margin-top: 40px;">
+            <a href="../blog.html">← Back to Blog</a>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
