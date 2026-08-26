@@ -9,12 +9,15 @@
     --border: #e4e4e7;
     --border-strong: #d4d4d8;
     --radius: 0.5rem;
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-mono: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
 }
 
 html {
@@ -73,7 +76,17 @@ a {
     color: var(--foreground);
     text-decoration: none;
     text-underline-offset: 3px;
-    transition: opacity 0.15s ease;
+    transition: color 0.15s ease, opacity 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+
+a:hover {
+    color: var(--muted-foreground);
+}
+
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--foreground);
+    outline-offset: 3px;
 }
 
 main a {
@@ -127,8 +140,26 @@ nav a:hover {
 }
 
 .nav-right a:hover {
-    opacity: 0.85;
+    opacity: 1;
     color: var(--background);
+    background-color: var(--muted-foreground);
+    transform: translateY(-1px);
+}
+
+button,
+[role="button"] {
+    border: 1px solid var(--foreground);
+    border-radius: var(--radius);
+    background-color: var(--foreground);
+    color: var(--background);
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+
+button:hover,
+[role="button"]:hover {
+    background-color: var(--muted-foreground);
+    transform: translateY(-1px);
 }
 
 hr {
@@ -445,8 +476,8 @@ th {
 
 /* ---- Code ---- */
 pre {
-    background: var(--muted);
-    border: 1px solid var(--border);
+    background: #282c34;
+    border: 1px solid #181a1f;
     border-radius: var(--radius);
     padding: 16px;
     overflow-x: auto;
@@ -454,6 +485,17 @@ pre {
     font-size: 0.88em;
     line-height: 1.5;
     margin: 20px 0;
+}
+
+pre code.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0;
+    background: transparent;
+}
+
+code:not(.hljs) {
+    color: #9c36b5;
 }
 
 code {
@@ -480,7 +522,7 @@ pre code {
 
 /* ---- Blog post body ---- */
 .blog-post-body {
-    font-family: Georgia, "Times New Roman", Times, serif;
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     line-height: 1.75;
 }
 
