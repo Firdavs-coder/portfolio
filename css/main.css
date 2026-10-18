@@ -201,16 +201,59 @@ main section li + li {
 }
 
 /* ---- Projects ---- */
+.project-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 20px 0;
+}
+
+.project-filter {
+    font-size: 0.8em;
+    color: var(--muted-foreground);
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.project-filter:hover {
+    border-color: var(--border-strong);
+    color: var(--foreground);
+}
+
+.project-filter.active {
+    background-color: var(--foreground);
+    border-color: var(--foreground);
+    color: var(--background);
+}
+
+.project-filter-count {
+    opacity: 0.6;
+    margin-left: 4px;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
 .project-card {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background-color: var(--background);
-    padding: 20px;
-    margin-bottom: 16px;
+    padding: 12px;
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    flex-direction: column;
+    gap: 14px;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.project-card[hidden] {
+    display: none;
 }
 
 .project-card:hover {
@@ -218,8 +261,16 @@ main section li + li {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
+.project-empty {
+    color: var(--muted-foreground);
+    text-align: center;
+}
+
 .project-info {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 4px 4px;
 }
 
 .project-card h3 {
@@ -231,13 +282,15 @@ main section li + li {
 .project-info p {
     color: var(--muted-foreground);
     font-size: 0.95em;
+    margin: 0;
 }
 
 .project-tools {
     font-size: 0.8em;
     color: var(--muted-foreground);
     font-family: var(--font-mono);
-    margin-top: 12px;
+    margin-top: auto;
+    padding-top: 12px;
     letter-spacing: 0;
 }
 
@@ -251,8 +304,9 @@ main section li + li {
 }
 
 .project-image {
-    width: 180px;
-    height: 120px;
+    order: -1;
+    width: 100%;
+    aspect-ratio: 16 / 10;
     flex-shrink: 0;
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -624,13 +678,8 @@ pre code {
         gap: 0;
     }
 
-    .project-card {
-        flex-direction: column;
-    }
-
-    .project-image {
-        width: 100%;
-        height: 180px;
+    .project-grid {
+        grid-template-columns: 1fr;
     }
 
     .resume-item-header {
