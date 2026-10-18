@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap");
+
 /* ============================================
    shadcn-inspired theme — clean, minimal, mono
    ============================================ */
@@ -9,15 +11,15 @@
     --border: #e4e4e7;
     --border-strong: #d4d4d8;
     --radius: 0.5rem;
-    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --font-mono: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-sans: Comfortaa, cursive;
+    --font-mono: Comfortaa, cursive;
 }
 
 *,
 *::before,
 *::after {
     box-sizing: border-box;
-    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+    font-family: Comfortaa, cursive !important;
 }
 
 html {
@@ -522,7 +524,7 @@ pre code {
 
 /* ---- Blog post body ---- */
 .blog-post-body {
-    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: Comfortaa, cursive;
     line-height: 1.75;
 }
 
