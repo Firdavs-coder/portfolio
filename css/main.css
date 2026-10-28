@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 /* ============================================
    shadcn-inspired theme — clean, minimal, mono
@@ -10,16 +10,16 @@
     --muted-foreground: #71717a;
     --border: #e4e4e7;
     --border-strong: #d4d4d8;
-    --radius: 0.5rem;
-    --font-sans: Comfortaa, cursive;
-    --font-mono: Comfortaa, cursive;
+    --radius: 0;
+    --font-sans: Inter, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: Inter, "Helvetica Neue", Arial, sans-serif;
 }
 
 *,
 *::before,
 *::after {
     box-sizing: border-box;
-    font-family: Comfortaa, cursive !important;
+    font-family: Inter, "Helvetica Neue", Arial, sans-serif !important;
 }
 
 html {
@@ -187,6 +187,15 @@ hr {
     clear: both;
 }
 
+.timeline p {
+    display: flex;
+    gap: 0.35em;
+}
+
+.timeline p span {
+    flex-shrink: 0;
+}
+
 main section ul {
     padding-left: 20px;
     margin: 8px 0;
@@ -201,42 +210,9 @@ main section li + li {
 }
 
 /* ---- Projects ---- */
-.project-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 20px 0;
-}
-
-.project-filter {
-    font-size: 0.8em;
-    color: var(--muted-foreground);
-    background-color: var(--background);
-    border: 1px solid var(--border);
-    border-radius: 9999px;
-    padding: 4px 12px;
-    cursor: pointer;
-    transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
-}
-
-.project-filter:hover {
-    border-color: var(--border-strong);
-    color: var(--foreground);
-}
-
-.project-filter.active {
-    background-color: var(--foreground);
-    border-color: var(--foreground);
-    color: var(--background);
-}
-
-.project-filter-count {
-    opacity: 0.6;
-    margin-left: 4px;
-}
-
 .project-grid {
     display: grid;
+    margin-top: 20px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
 }
@@ -252,18 +228,9 @@ main section li + li {
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.project-card[hidden] {
-    display: none;
-}
-
 .project-card:hover {
     border-color: var(--border-strong);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.project-empty {
-    color: var(--muted-foreground);
-    text-align: center;
 }
 
 .project-info {
@@ -298,7 +265,7 @@ main section li + li {
     display: inline-block;
     background-color: var(--muted);
     padding: 2px 8px;
-    border-radius: 9999px;
+    border-radius: 0;
     font-size: 0.85em;
     margin-right: 5px;
 }
@@ -353,27 +320,8 @@ main section li + li {
 }
 
 /* ---- Resume ---- */
-.resume-aside {
-    float: right;
-    width: 280px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    background-color: var(--muted);
-    margin: 0 0 24px 28px;
-    font-size: 0.9em;
-}
-
-.resume-aside h3 {
-    margin: 0 0 12px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-strong);
-    text-align: center;
-}
-
-.resume-aside p {
-    margin: 6px 0;
-    color: var(--muted-foreground);
+.resume-page main ul {
+    list-style-type: "-  ";
 }
 
 .resume-section {
@@ -381,7 +329,7 @@ main section li + li {
 }
 
 .resume-item {
-    margin-bottom: 20px;
+    margin-bottom: 4px;
 }
 
 .resume-item-header {
@@ -500,7 +448,8 @@ footer {
     font-size: 0.9em;
 }
 
-.contacts a {
+.contacts a,
+.contacts span {
     margin-right: 20px;
     color: var(--muted-foreground);
     text-decoration: none;
@@ -558,7 +507,7 @@ code {
     font-family: var(--font-mono);
     background: var(--muted);
     padding: 2px 6px;
-    border-radius: 4px;
+    border-radius: 0;
     font-size: 0.88em;
 }
 
@@ -578,7 +527,7 @@ pre code {
 
 /* ---- Blog post body ---- */
 .blog-post-body {
-    font-family: Comfortaa, cursive;
+    font-family: Inter, "Helvetica Neue", Arial, sans-serif;
     line-height: 1.75;
 }
 
@@ -665,12 +614,6 @@ pre code {
         float: none;
         width: 140px;
         margin: 0 0 20px;
-    }
-
-    .resume-aside {
-        float: none;
-        width: 100%;
-        margin: 0 0 24px;
     }
 
     .skills-languages-row {
